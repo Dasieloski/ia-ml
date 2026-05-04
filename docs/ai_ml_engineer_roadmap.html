@@ -1,0 +1,256 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: transparent; }
+  .wrap { padding: 1rem 0; font-family: var(--font-sans); }
+  .phase { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 12px; background: var(--color-background-primary); }
+  .phase-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; cursor: pointer; user-select: none; }
+  .badge { font-size: 11px; font-weight: 500; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .badge-purple { background: #EEEDFE; color: #3C3489; }
+  .badge-teal   { background: #E1F5EE; color: #085041; }
+  .badge-amber  { background: #FAEEDA; color: #633806; }
+  .badge-coral  { background: #FAECE7; color: #712B13; }
+  @media (prefers-color-scheme: dark) {
+    .badge-purple { background: #3C3489; color: #CECBF6; }
+    .badge-teal   { background: #085041; color: #9FE1CB; }
+    .badge-amber  { background: #633806; color: #FAC775; }
+    .badge-coral  { background: #712B13; color: #F5C4B3; }
+  }
+  .phase-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
+  .phase-time { font-size: 12px; color: var(--color-text-secondary); }
+  .arrow-icon { font-size: 12px; color: var(--color-text-tertiary); transition: transform .2s; }
+  .phase.open .arrow-icon { transform: rotate(90deg); }
+  .body { display: none; }
+  .phase.open .body { display: block; }
+  .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .skill-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 8px 10px; cursor: pointer; border: 0.5px solid var(--color-border-tertiary); transition: border-color .15s; }
+  .skill-card:hover { border-color: var(--color-border-secondary); }
+  .skill-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+  .skill-desc { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.5; }
+  .resources { margin-top: 8px; border-top: 0.5px solid var(--color-border-tertiary); padding-top: 8px; }
+  .res-label { font-size: 11px; color: var(--color-text-tertiary); margin-bottom: 4px; }
+  .res-link { display: block; font-size: 12px; color: var(--color-text-info, #185FA5); text-decoration: none; padding: 2px 0; }
+  .connector { text-align: center; color: var(--color-text-tertiary); font-size: 18px; margin: -4px 0; }
+  .salary-bar { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 14px; margin-top: 8px; display: flex; align-items: center; gap: 12px; }
+  .sal-label { font-size: 11px; color: var(--color-text-secondary); }
+  .sal-val { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .sal-sep { font-size: 11px; color: var(--color-text-tertiary); }
+  .note { font-size: 11px; color: var(--color-text-secondary); margin-top: 6px; line-height: 1.6; }
+</style>
+<div class="wrap">
+
+  <!-- Phase 0 -->
+  <div class="phase open" id="p0">
+    <div class="phase-head" onclick="toggle('p0')">
+      <span class="badge badge-purple">Fase 0</span>
+      <span class="phase-title">Qué hace exactamente un AI/ML Engineer</span>
+      <span class="phase-time">Leer esto primero</span>
+      <span class="arrow-icon">▶</span>
+    </div>
+    <div class="body">
+      <div class="skill-grid">
+        <div class="skill-card" onclick="sendPrompt('Explícame qué hace un ML Engineer en el día a día')">
+          <div class="skill-name">Construye modelos</div>
+          <div class="skill-desc">Entrena algoritmos para que la máquina aprenda patrones: detectar spam, predecir ventas, entender texto ↗</div>
+        </div>
+        <div class="skill-card" onclick="sendPrompt('Qué es RAG y por qué está tan demandado en 2026?')">
+          <div class="skill-name">Crea sistemas con LLMs</div>
+          <div class="skill-desc">Conecta GPT/Claude a datos reales de empresas usando RAG, agents y APIs ↗</div>
+        </div>
+        <div class="skill-card" onclick="sendPrompt('Qué es MLOps y por qué es importante?')">
+          <div class="skill-name">Deploya a producción</div>
+          <div class="skill-desc">Hace que los modelos funcionen en el mundo real, escalables, sin caerse (MLOps) ↗</div>
+        </div>
+        <div class="skill-card" onclick="sendPrompt('Diferencia entre Data Scientist y ML Engineer')">
+          <div class="skill-name">No es data scientist</div>
+          <div class="skill-desc">Él construye y deploya. El data scientist analiza. Tú ya eres engineer — ventaja enorme ↗</div>
+        </div>
+      </div>
+      <p class="note">Tu background en Next.js, Prisma y APIs REST te pone muy por delante de alguien empezando desde cero. Ya sabes cómo funciona producción.</p>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- Phase 1 -->
+  <div class="phase" id="p1">
+    <div class="phase-head" onclick="toggle('p1')">
+      <span class="badge badge-purple">Fase 1</span>
+      <span class="phase-title">Fundamentos ML</span>
+      <span class="phase-time">~2 meses</span>
+      <span class="arrow-icon">▶</span>
+    </div>
+    <div class="body">
+      <div class="skill-grid">
+        <div class="skill-card">
+          <div class="skill-name">Python para ML</div>
+          <div class="skill-desc">NumPy, Pandas, Matplotlib. Ya sabes programar — esto es 2 semanas máximo.</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">Math esencial</div>
+          <div class="skill-desc">Álgebra lineal, probabilidad básica, derivadas. No necesitas PhD — solo intuición.</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">ML clásico</div>
+          <div class="skill-desc">Regresión, clasificación, árboles de decisión, clustering. Scikit-learn.</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">Deep Learning intro</div>
+          <div class="skill-desc">Redes neuronales, backprop, PyTorch básico. La base de todo lo moderno.</div>
+        </div>
+      </div>
+      <div class="resources">
+        <p class="res-label">Recursos (gratis y los mejores)</p>
+        <a class="res-link" href="https://www.deeplearning.ai/courses/machine-learning-specialization/" target="_blank">→ Machine Learning Specialization — Andrew Ng (DeepLearning.AI)</a>
+        <a class="res-link" href="https://fast.ai" target="_blank">→ Fast.ai — Practical Deep Learning (muy hands-on)</a>
+        <a class="res-link" href="https://www.kaggle.com/learn" target="_blank">→ Kaggle Learn — Python, Pandas, ML intro</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- Phase 2 -->
+  <div class="phase" id="p2">
+    <div class="phase-head" onclick="toggle('p2')">
+      <span class="badge badge-teal">Fase 2</span>
+      <span class="phase-title">LLMs y AI moderno — lo que paga</span>
+      <span class="phase-time">~2 meses</span>
+      <span class="arrow-icon">▶</span>
+    </div>
+    <div class="body">
+      <div class="skill-grid">
+        <div class="skill-card" onclick="sendPrompt('Cómo funciona un RAG pipeline paso a paso?')">
+          <div class="skill-name">RAG pipelines ↗</div>
+          <div class="skill-desc">La skill #1 más pagada. Conecta LLMs a documentos/bases de datos reales.</div>
+        </div>
+        <div class="skill-card" onclick="sendPrompt('Qué es LangChain y cómo empezar?')">
+          <div class="skill-name">LangChain / LlamaIndex ↗</div>
+          <div class="skill-desc">Frameworks estándar para construir aplicaciones con LLMs.</div>
+        </div>
+        <div class="skill-card" onclick="sendPrompt('Qué son los AI Agents y cómo se construyen?')">
+          <div class="skill-name">AI Agents ↗</div>
+          <div class="skill-desc">Sistemas que razonan y usan tools automáticamente. El futuro del AI.</div>
+        </div>
+        <div class="skill-card" onclick="sendPrompt('Qué son los vector databases y cuáles debo aprender?')">
+          <div class="skill-name">Vector databases ↗</div>
+          <div class="skill-desc">Pinecone, pgvector, Weaviate. Memoria semántica para los LLMs.</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">APIs: OpenAI / Anthropic</div>
+          <div class="skill-desc">Integrar GPT-4, Claude, Gemini en aplicaciones reales. Ya sabes APIs REST.</div>
+        </div>
+        <div class="skill-card" onclick="sendPrompt('Qué es fine-tuning con LoRA y cuándo usarlo?')">
+          <div class="skill-name">Fine-tuning (LoRA/QLoRA) ↗</div>
+          <div class="skill-desc">Adaptar modelos open-source a tareas específicas. Premium de 30-50% en salario.</div>
+        </div>
+      </div>
+      <div class="resources">
+        <p class="res-label">Recursos</p>
+        <a class="res-link" href="https://www.deeplearning.ai/short-courses/" target="_blank">→ DeepLearning.AI Short Courses — LangChain, RAG, Agents (gratis)</a>
+        <a class="res-link" href="https://huggingface.co/learn" target="_blank">→ HuggingFace Course — modelos open-source</a>
+        <a class="res-link" href="https://docs.anthropic.com" target="_blank">→ Anthropic Docs — construir con Claude API</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- Phase 3 -->
+  <div class="phase" id="p3">
+    <div class="phase-head" onclick="toggle('p3')">
+      <span class="badge badge-amber">Fase 3</span>
+      <span class="phase-title">Producción y MLOps — lo que te separa</span>
+      <span class="phase-time">~2 meses</span>
+      <span class="arrow-icon">▶</span>
+    </div>
+    <div class="body">
+      <div class="skill-grid">
+        <div class="skill-card">
+          <div class="skill-name">Docker + FastAPI</div>
+          <div class="skill-desc">Containerizar modelos y exponerlos como APIs. Crítico para producción.</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">MLflow / W&B</div>
+          <div class="skill-desc">Tracking de experimentos. Saber qué modelo entrenaste y por qué.</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">AWS SageMaker / GCP Vertex</div>
+          <div class="skill-desc">Deployar y escalar modelos en cloud. Certificación = +20-25% salario.</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-name">Monitoring de modelos</div>
+          <div class="skill-desc">Detectar cuando el modelo se degrada en producción. Prometheus, Grafana.</div>
+        </div>
+      </div>
+      <div class="resources">
+        <p class="res-label">Certificaciones con mejor ROI</p>
+        <a class="res-link" href="https://aws.amazon.com/certification/certified-machine-learning-specialty/" target="_blank">→ AWS Certified ML Specialty — +20% salario, aparece en 40% más job postings</a>
+        <a class="res-link" href="https://cloud.google.com/learn/certification/machine-learning-engineer" target="_blank">→ Google Professional ML Engineer — +25% premium salarial</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- Phase 4 -->
+  <div class="phase" id="p4">
+    <div class="phase-head" onclick="toggle('p4')">
+      <span class="badge badge-coral">Fase 4</span>
+      <span class="phase-title">Portfolio y conseguir clientes desde Cuba</span>
+      <span class="phase-time">Desde el mes 1</span>
+      <span class="arrow-icon">▶</span>
+    </div>
+    <div class="body">
+      <div class="skill-grid">
+        <div class="skill-card" onclick="sendPrompt('Qué proyectos de portfolio de AI debo construir para conseguir trabajo remoto?')">
+          <div class="skill-name">Proyectos reales ↗</div>
+          <div class="skill-desc">RAG sobre PDFs, AI agent con tools, fine-tune de modelo. GitHub público desde el día 1.</div>
+        </div>
+        <div class="skill-card" onclick="sendPrompt('Cómo conseguir clientes de AI desde Cuba como freelancer?')">
+          <div class="skill-name">Freelance remoto ↗</div>
+          <div class="skill-desc">Upwork, Arc.dev, Toptal. Cobro en USDT/crypto. Empresas LATAM que pagan en USD.</div>
+        </div>
+        <div class="skill-card" onclick="sendPrompt('Cómo construir en público en LinkedIn para conseguir trabajo de AI?')">
+          <div class="skill-name">LinkedIn en inglés ↗</div>
+          <div class="skill-desc">Postear sobre lo que construyes. Los reclutadores te encuentran sin importar dónde estás.</div>
+        </div>
+        <div class="skill-card" onclick="sendPrompt('Qué empresas LATAM contratan AI Engineers remoto y pagan bien?')">
+          <div class="skill-name">Empresas LATAM ↗</div>
+          <div class="skill-desc">Globant, Devsu, Oowlish, MercadoLibre. Contratan remoto y pagan en USD.</div>
+        </div>
+      </div>
+      <p class="note">El 60% de los CVs que llegan a empleadores describen solo experiencia en notebooks. Tú con 1 proyecto real deployado ya estás por encima de la mayoría.</p>
+    </div>
+  </div>
+
+  <!-- Salary range -->
+  <div style="margin-top: 16px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; background: var(--color-background-secondary);">
+    <p style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 10px;">Rango salarial realista en USD (remoto para empresas internacionales)</p>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+      <div style="text-align: center; background: var(--color-background-primary); border-radius: var(--border-radius-md); padding: 10px; border: 0.5px solid var(--color-border-tertiary);">
+        <div style="font-size: 11px; color: var(--color-text-secondary);">Junior (6-12m)</div>
+        <div style="font-size: 16px; font-weight: 500; color: var(--color-text-primary); margin-top: 4px;">$30–60k</div>
+        <div style="font-size: 10px; color: var(--color-text-tertiary);">año</div>
+      </div>
+      <div style="text-align: center; background: var(--color-background-primary); border-radius: var(--border-radius-md); padding: 10px; border: 0.5px solid var(--color-border-info, #185FA5);">
+        <div style="font-size: 11px; color: var(--color-text-secondary);">Mid (1-2 años)</div>
+        <div style="font-size: 16px; font-weight: 500; color: var(--color-text-primary); margin-top: 4px;">$60–100k</div>
+        <div style="font-size: 10px; color: var(--color-text-tertiary);">año</div>
+      </div>
+      <div style="text-align: center; background: var(--color-background-primary); border-radius: var(--border-radius-md); padding: 10px; border: 0.5px solid var(--color-border-tertiary);">
+        <div style="font-size: 11px; color: var(--color-text-secondary);">Senior (3+ años)</div>
+        <div style="font-size: 16px; font-weight: 500; color: var(--color-text-primary); margin-top: 4px;">$100–180k</div>
+        <div style="font-size: 10px; color: var(--color-text-tertiary);">año</div>
+      </div>
+    </div>
+    <p style="font-size: 11px; color: var(--color-text-secondary); margin-top: 8px;">Freelance LLM specialist: $80–$150/hr. Especialización en RAG/Agents añade 30-50% de premium.</p>
+  </div>
+
+</div>
+<script>
+function toggle(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+</script>
